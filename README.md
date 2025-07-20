@@ -110,6 +110,7 @@ The application provides REST API endpoints for all models:
 ### Sample Data
 
 The seed command creates:
+
 - **Users**: Sample users with credentials (username: user1, password: password123)
 - **Listings**: Properties in various cities worldwide with different types and amenities
 - **Bookings**: Sample bookings with different statuses and date ranges
@@ -117,7 +118,7 @@ The seed command creates:
 
 ## Project Structure
 
-```
+```text
 alx_travel_app_0x00/
 ├── alx_travel_app/          # Django project settings
 ├── listings/                # Main app
