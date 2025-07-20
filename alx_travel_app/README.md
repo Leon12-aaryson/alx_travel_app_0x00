@@ -1,199 +1,180 @@
-# ALX Travel App - Django Project Configuration
+# ALX Travel App
 
-This directory contains the main Django project configuration for the ALX Travel App.
+A Django-based travel application for property listings, bookings, and reviews.
 
-## Project Overview
+## Features
 
-The ALX Travel App is a Django-based web application for managing travel property listings, bookings, and reviews. This project demonstrates Django best practices including database modeling, API serialization, and data seeding.
+- **Property Listings**: Create and manage travel property listings with detailed information
+- **Booking System**: Handle property bookings with date validation and guest limits
+- **Review System**: Allow users to rate and review properties
+- **User Management**: User authentication and profile management
+- **REST API**: Full API support with Django REST Framework
+- **Database Seeding**: Management command to populate the database with sample data
+
+## Models
+
+### Listing
+
+- Property details (title, description, address, etc.)
+- Pricing and capacity information
+- Property type and amenities
+- Host relationship
+- Availability status
+
+### Booking
+
+- Guest and listing relationships
+- Check-in/check-out dates
+- Guest count and total price calculation
+- Booking status management
+- Special requests
+
+### Review
+
+- Rating system (1-5 stars)
+- User comments
+- One review per user per listing
+- Timestamp tracking
+
+## Setup Instructions
+
+### Prerequisites
+
+- Python 3.8+
+- pip
+
+### Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone <repository-url>
+   cd alx_travel_app_0x00
+   ```
+
+2. **Create and activate virtual environment**
+
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
+
+3. **Install dependencies**
+
+   ```bash
+   pip install django djangorestframework
+   ```
+
+4. **Run migrations**
+
+   ```bash
+   python manage.py makemigrations
+   python manage.py migrate
+   ```
+
+5. **Seed the database with sample data**
+
+   ```bash
+   python manage.py seed
+   ```
+
+6. **Run the development server**
+
+   ```bash
+   python manage.py runserver
+   ```
+
+## Usage
+
+### Seeding the Database
+
+The application includes a management command to populate the database with sample data:
+
+```bash
+# Use default values (5 users, 20 listings, 30 bookings, 50 reviews)
+python manage.py seed
+
+# Customize the number of records
+python manage.py seed --users 10 --listings 50 --bookings 100 --reviews 200
+```
+
+### API Endpoints
+
+The application provides REST API endpoints for all models:
+
+- **Listings**: `/api/listings/`
+- **Bookings**: `/api/bookings/`
+- **Reviews**: `/api/reviews/`
+- **Users**: `/api/users/`
+
+### Sample Data
+
+The seed command creates:
+
+- **Users**: Sample users with credentials (username: user1, password: password123)
+- **Listings**: Properties in various cities worldwide with different types and amenities
+- **Bookings**: Sample bookings with different statuses and date ranges
+- **Reviews**: User reviews with ratings and comments
 
 ## Project Structure
 
 ```text
-alx_travel_app/
-├── __init__.py          # Python package initialization
-├── settings.py          # Django project settings
-├── urls.py             # Main URL configuration
-├── wsgi.py             # WSGI application entry point
-├── asgi.py             # ASGI application entry point
-└── README.md           # This documentation file
+alx_travel_app_0x00/
+├── alx_travel_app/          # Django project settings
+├── listings/                # Main app
+│   ├── models.py           # Database models
+│   ├── serializers.py      # API serializers
+│   ├── management/
+│   │   └── commands/
+│   │       └── seed.py     # Database seeding command
+│   └── migrations/         # Database migrations
+├── manage.py               # Django management script
+├── requirements.txt        # Python dependencies
+└── README.md              # This file
 ```
 
-## Configuration Files
+## Database Schema
 
-### settings.py
+### Listing Model
+- `title`: Property title
+- `description`: Detailed description
+- `address`, `city`, `state`, `zipcode`, `country`: Location information
+- `price_per_night`: Nightly rate
+- `bedrooms`, `bathrooms`, `max_guests`: Property capacity
+- `property_type`: Type of property (apartment, house, villa, etc.)
+- `amenities`: JSON field for property amenities
+- `images`: JSON field for property images
+- `host`: Foreign key to User model
+- `is_available`: Availability status
 
-Main Django settings file containing:
+### Booking Model
+- `listing`: Foreign key to Listing
+- `guest`: Foreign key to User
+- `check_in_date`, `check_out_date`: Booking dates
+- `num_guests`: Number of guests
+- `total_price`: Calculated total price
+- `status`: Booking status (pending, confirmed, cancelled, completed)
+- `special_requests`: Optional special requests
 
-- **Database Configuration**: SQLite3 database setup
-- **Installed Apps**: Django apps and third-party packages
-- **Middleware**: Security and session middleware
-- **Templates**: Template engine configuration
-- **Static Files**: Static file serving configuration
-- **Security Settings**: Secret key and debug settings
-
-**Key Settings:**
-
-- `DEBUG = True` (development mode)
-- `DATABASES`: SQLite3 configuration
-- `INSTALLED_APPS`: Includes `listings` and `rest_framework`
-- `DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'`
-
-### urls.py
-
-Main URL configuration file:
-
-- Root URL patterns
-- Admin interface URLs
-- API endpoint routing (when implemented)
-
-### wsgi.py
-
-WSGI (Web Server Gateway Interface) application entry point:
-
-- Used for production deployment
-- Configures Django application for WSGI servers
-
-### asgi.py
-
-ASGI (Asynchronous Server Gateway Interface) application entry point:
-
-- Used for async-capable servers
-- Supports WebSocket connections
-
-## Dependencies
-
-### Core Django
-
-- **Django 5.2.4**: Web framework
-- **asgiref 3.9.1**: ASGI utilities
-- **sqlparse 0.5.3**: SQL parsing utilities
-
-### Third-party Packages
-
-- **djangorestframework 3.16.0**: REST API framework
-
-## Development Setup
-
-### Prerequisites
-- Python 3.8+
-- pip package manager
-
-### Installation Steps
-
-1. Create virtual environment: `python3 -m venv venv`
-2. Activate virtual environment: `source venv/bin/activate`
-3. Install dependencies: `pip install -r requirements.txt`
-4. Run migrations: `python manage.py migrate`
-5. Seed database: `python manage.py seed`
-6. Start development server: `python manage.py runserver`
-
-## API Configuration
-
-The project is configured to use Django REST Framework for API development:
-
-```python
-INSTALLED_APPS = [
-    # ... Django apps
-    'rest_framework',
-    'listings',
-]
-```
-
-### API Features
-- **Serializers**: JSON data serialization/deserialization
-- **ViewSets**: RESTful API views
-- **Authentication**: User authentication system
-- **Permissions**: Access control mechanisms
-
-## Database Configuration
-
-### Current Setup
-- **Database Engine**: SQLite3
-- **Database File**: `db.sqlite3` (in project root)
-- **Migrations**: Applied for all apps
-
-### Models Available
-- **User**: Django's built-in user model
-- **Listing**: Property listings with full details
-- **Booking**: Property booking system
-- **Review**: User review and rating system
-
-## Security Considerations
-
-### Development Settings
-- `DEBUG = True` (should be False in production)
-- `SECRET_KEY` (should be kept secret in production)
-- `ALLOWED_HOSTS = []` (configure for production)
-
-### Production Recommendations
-1. Set `DEBUG = False`
-2. Use environment variables for `SECRET_KEY`
-3. Configure `ALLOWED_HOSTS`
-4. Use HTTPS in production
-5. Set up proper database (PostgreSQL recommended)
-
-## Deployment
-
-### WSGI Deployment
-For traditional WSGI servers (Gunicorn, uWSGI):
-```bash
-gunicorn alx_travel_app.wsgi:application
-```
-
-### ASGI Deployment
-For async-capable servers (Daphne, Uvicorn):
-```bash
-uvicorn alx_travel_app.asgi:application
-```
-
-## Testing
-
-### Running Tests
-```bash
-python manage.py test
-```
-
-### System Check
-```bash
-python manage.py check
-```
-
-## Management Commands
-
-### Available Commands
-- `python manage.py migrate` - Apply database migrations
-- `python manage.py seed` - Populate database with sample data
-- `python manage.py createsuperuser` - Create admin user
-- `python manage.py runserver` - Start development server
-
-### Custom Commands
-- `seed` - Database seeding command in `listings` app
-
-## Troubleshooting
-
-### Common Issues
-1. **Database errors**: Run `python manage.py migrate`
-2. **Import errors**: Check virtual environment activation
-3. **Permission errors**: Check file permissions
-4. **Port conflicts**: Use different port with `--port` flag
-
-### Debug Mode
-When `DEBUG = True`:
-- Detailed error pages
-- SQL query logging
-- Static file serving
+### Review Model
+- `listing`: Foreign key to Listing
+- `reviewer`: Foreign key to User
+- `rating`: 1-5 star rating
+- `comment`: Review text
+- Unique constraint: one review per user per listing
 
 ## Contributing
 
-1. Follow Django coding style guidelines
-2. Add tests for new features
-3. Update documentation
-4. Use meaningful commit messages
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
 
 ## License
 
-This project is part of the ALX Software Engineering curriculum.
+This project is part of the ALX curriculum and is for educational purposes.
 
 ## Author
 
-Created as part of ALX Software Engineering program.
+Created as part of ALX Software Engineering program. 
