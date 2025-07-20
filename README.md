@@ -14,6 +14,7 @@ A Django-based travel application for property listings, bookings, and reviews.
 ## Models
 
 ### Listing
+
 - Property details (title, description, address, etc.)
 - Pricing and capacity information
 - Property type and amenities
@@ -21,6 +22,7 @@ A Django-based travel application for property listings, bookings, and reviews.
 - Availability status
 
 ### Booking
+
 - Guest and listing relationships
 - Check-in/check-out dates
 - Guest count and total price calculation
@@ -28,6 +30,7 @@ A Django-based travel application for property listings, bookings, and reviews.
 - Special requests
 
 ### Review
+
 - Rating system (1-5 stars)
 - User comments
 - One review per user per listing
@@ -36,40 +39,47 @@ A Django-based travel application for property listings, bookings, and reviews.
 ## Setup Instructions
 
 ### Prerequisites
+
 - Python 3.8+
 - pip
 
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone <repository-url>
    cd alx_travel_app_0x00
    ```
 
 2. **Create and activate virtual environment**
+
    ```bash
    python3 -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
 
 3. **Install dependencies**
+
    ```bash
    pip install django djangorestframework
    ```
 
 4. **Run migrations**
+
    ```bash
    python manage.py makemigrations
    python manage.py migrate
    ```
 
 5. **Seed the database with sample data**
+
    ```bash
    python manage.py seed
    ```
 
 6. **Run the development server**
+
    ```bash
    python manage.py runserver
    ```
